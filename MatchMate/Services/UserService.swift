@@ -18,14 +18,13 @@ protocol UserServiceProtocol {
 
 final class UserService: UserServiceProtocol {
     private let networkService: NetworkServiceProtocol
-    private let baseURL = "https://jsonplaceholder.typicode.com/users"
     
     init(networkService: NetworkServiceProtocol) {
         self.networkService = networkService
     }
     
     func fetchUsers() async throws -> [UserModel] {
-        try await networkService.request(baseURL)
+        try await networkService.request(APIConstants.baseURL + APIConstants.usersEndpoint)
     }
     
     func saveUsers(_ users: [UserModel], context: ModelContext) throws {

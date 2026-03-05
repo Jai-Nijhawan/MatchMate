@@ -85,7 +85,9 @@ struct MatchCardView: View {
         .shadow(color: Color.black.opacity(0.08), radius: 10, x: 0, y: 5)
     }
     
-    private func pillBadge(icon: String, text: String, color: Color) -> some View {
+    private func pillBadge(icon: String,
+                           text: String,
+                           color: Color) -> some View {
         HStack(spacing: 4) {
             Image(systemName: icon)
                 .font(.caption2)

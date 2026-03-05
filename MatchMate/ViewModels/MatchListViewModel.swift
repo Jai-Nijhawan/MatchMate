@@ -10,6 +10,13 @@ import SwiftUI
 import SwiftData
 import Combine
 
+enum MatchErrorMessage {
+    static let databaseUnavailable = "Database not available"
+    static let noCachedData = "No internet connection and no cached data available"
+    static let failedToLoadCache = "Failed to load cached data"
+    static let failedToUpdateStatus = "Failed to update status"
+}
+
 @MainActor
 final class MatchListViewModel: ObservableObject {
     @Published var cardViewModels: [MatchCardViewModel] = []
@@ -22,8 +29,7 @@ final class MatchListViewModel: ObservableObject {
     private var modelContext: ModelContext?
     private var cancellables = Set<AnyCancellable>()
     
-    init(userService: UserServiceProtocol,
-         networkMonitor: NetworkMonitor) {
+    init(userService: UserServiceProtocol, networkMonitor: NetworkMonitor) {
         self.userService = userService
         self.networkMonitor = networkMonitor
         
@@ -45,7 +51,7 @@ final class MatchListViewModel: ObservableObject {
     
     func loadProfiles() {
         guard let modelContext = modelContext else {
-            errorMessage = "Database not available"
+            errorMessage = MatchErrorMessage.databaseUnavailable
             return
         }
         
@@ -78,12 +84,12 @@ final class MatchListViewModel: ObservableObject {
             cardViewModels = try userService.fetchProfiles(context: modelContext)
             
             if cardViewModels.isEmpty {
-                errorMessage = "No internet connection and no cached data available"
+                errorMessage = MatchErrorMessage.noCachedData
             }
             isLoading = false
         } catch {
             isLoading = false
-            errorMessage = "Failed to load cached data: \(error.localizedDescription)"
+            errorMessage = MatchErrorMessage.failedToLoadCache
         }
     }
     
@@ -105,7 +111,7 @@ final class MatchListViewModel: ObservableObject {
                 cardViewModels[index].status = status
             }
         } catch {
-            errorMessage = "Failed to update status"
+            errorMessage = MatchErrorMessage.failedToUpdateStatus
         }
     }
 }
