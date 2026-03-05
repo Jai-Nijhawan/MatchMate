@@ -10,6 +10,8 @@ import SDWebImageSwiftUI
 
 struct MatchCardView: View {
     let viewModel: MatchCardViewModel
+    var onAccept: () -> Void = {}
+    var onDecline: () -> Void = {}
     
     var body: some View {
         VStack(spacing: 16) {
@@ -46,7 +48,7 @@ struct MatchCardView: View {
             
             if viewModel.isPending {
                 HStack(spacing: 16) {
-                    Button(action: viewModel.onDecline) {
+                    Button(action: onDecline) {
                         HStack {
                             Image(systemName: "xmark")
                             Text("Decline")
@@ -59,7 +61,7 @@ struct MatchCardView: View {
                         .cornerRadius(25)
                     }
                     
-                    Button(action: viewModel.onAccept) {
+                    Button(action: onAccept) {
                         HStack {
                             Image(systemName: "checkmark")
                             Text("Accept")
@@ -121,9 +123,7 @@ struct MatchCardView: View {
             city: "Gwenborough",
             companyName: "Romaguera-Crona",
             profileImageURL: "https://i.pravatar.cc/300?u=1",
-            status: .pending,
-            onAccept: {},
-            onDecline: {}
+            status: .pending
         )
     )
     .padding()
@@ -140,9 +140,7 @@ struct MatchCardView: View {
             city: "Gwenborough",
             companyName: "Romaguera-Crona",
             profileImageURL: "https://i.pravatar.cc/300?u=1",
-            status: .accepted,
-            onAccept: {},
-            onDecline: {}
+            status: .accepted
         )
     )
     .padding()
@@ -159,9 +157,7 @@ struct MatchCardView: View {
             city: "Gwenborough",
             companyName: "Romaguera-Crona",
             profileImageURL: "https://i.pravatar.cc/300?u=1",
-            status: .declined,
-            onAccept: {},
-            onDecline: {}
+            status: .declined
         )
     )
     .padding()

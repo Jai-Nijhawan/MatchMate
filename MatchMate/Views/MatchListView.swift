@@ -14,7 +14,7 @@ struct MatchListView: View {
     
     init() {
         _viewModel = StateObject(wrappedValue: MatchListViewModel(
-            networkService: NetworkService(),
+            userService: UserService(networkService: NetworkService()),
             networkMonitor: NetworkMonitor.shared
         ))
     }
@@ -47,7 +47,11 @@ struct MatchListView: View {
                     ScrollView {
                         LazyVStack(spacing: 20) {
                             ForEach(viewModel.cardViewModels) { cardViewModel in
-                                MatchCardView(viewModel: cardViewModel)
+                                MatchCardView(
+                                    viewModel: cardViewModel,
+                                    onAccept: { viewModel.acceptMatch(id: cardViewModel.id) },
+                                    onDecline: { viewModel.declineMatch(id: cardViewModel.id) }
+                                )
                             }
                         }
                         .padding(.horizontal, 16)
@@ -93,76 +97,5 @@ struct MatchListView: View {
             endPoint: .bottomTrailing
         )
         .ignoresSafeArea()
-    }
-}
-
-#Preview {
-    MatchListView_Preview()
-}
-
-struct MatchListView_Preview: View {
-    var body: some View {
-        ZStack {
-            LinearGradient(
-                gradient: Gradient(colors: [Color.pink.opacity(0.3), Color.purple.opacity(0.2), Color.blue.opacity(0.1)]),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
-            
-            ScrollView {
-                LazyVStack(spacing: 20) {
-                    MatchCardView(
-                        viewModel: MatchCardViewModel(
-                            id: 1,
-                            name: "Leanne Graham",
-                            username: "Bret",
-                            email: "Sincere@april.biz",
-                            phone: "1-770-736-8031",
-                            city: "Gwenborough",
-                            companyName: "Romaguera-Crona",
-                            profileImageURL: "https://i.pravatar.cc/300?u=1",
-                            status: .pending,
-                            onAccept: {},
-                            onDecline: {}
-                        )
-                    )
-                    
-                    MatchCardView(
-                        viewModel: MatchCardViewModel(
-                            id: 2,
-                            name: "Ervin Howell",
-                            username: "Antonette",
-                            email: "Shanna@melissa.tv",
-                            phone: "010-692-6593",
-                            city: "Wisokyburgh",
-                            companyName: "Deckow-Crist",
-                            profileImageURL: "https://i.pravatar.cc/300?u=2",
-                            status: .accepted,
-                            onAccept: {},
-                            onDecline: {}
-                        )
-                    )
-                    
-                    MatchCardView(
-                        viewModel: MatchCardViewModel(
-                            id: 3,
-                            name: "Clementine Bauch",
-                            username: "Samantha",
-                            email: "Nathan@yesenia.net",
-                            phone: "1-463-123-4447",
-                            city: "McKenziehaven",
-                            companyName: "Romaguera-Jacobson",
-                            profileImageURL: "https://i.pravatar.cc/300?u=3",
-                            status: .declined,
-                            onAccept: {},
-                            onDecline: {}
-                        )
-                    )
-                }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 20)
-            }
-        }
     }
 }

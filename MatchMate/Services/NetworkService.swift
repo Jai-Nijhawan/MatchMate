@@ -7,6 +7,10 @@
 
 import Foundation
 
+protocol NetworkServiceProtocol {
+    func request<T: Decodable>(_ endpoint: String) async throws -> T
+}
+
 enum NetworkError: Error, LocalizedError {
     case invalidURL
     case noData
@@ -30,27 +34,15 @@ enum NetworkError: Error, LocalizedError {
     }
 }
 
-protocol NetworkServiceProtocol {
-    func fetchUsers() async throws -> [UserModel]
-}
-
 final class NetworkService: NetworkServiceProtocol {
-    static let shared = NetworkService()
     
-    private let baseURL = "https://jsonplaceholder.typicode.com/users"
-    private let session: URLSession
-    
-    init(session: URLSession = .shared) {
-        self.session = session
-    }
-    
-    func fetchUsers() async throws -> [UserModel] {
-        guard let url = URL(string: baseURL) else {
+    func request<T: Decodable>(_ endpoint: String) async throws -> T {
+        guard let url = URL(string: endpoint) else {
             throw NetworkError.invalidURL
         }
         
         do {
-            let (data, response) = try await session.data(from: url)
+            let (data, response) = try await URLSession.shared.data(from: url)
             
             guard let httpResponse = response as? HTTPURLResponse else {
                 throw NetworkError.noData
@@ -60,12 +52,11 @@ final class NetworkService: NetworkServiceProtocol {
                 throw NetworkError.serverError(httpResponse.statusCode)
             }
             
-            let users = try JSONDecoder().decode([UserModel].self, from: data)
-            return users
+            let result = try JSONDecoder().decode(T.self, from: data)
+            return result
         } catch let error as NetworkError {
             throw error
-        } catch let error as DecodingError {
-            print("Decoding error: \(error)")
+        } catch is DecodingError {
             throw NetworkError.decodingError
         } catch {
             throw NetworkError.networkError(error)

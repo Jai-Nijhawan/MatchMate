@@ -19,12 +19,10 @@ final class MatchProfile {
     var companyName: String
     var profileImageURL: String
     var status: MatchStatus
-    var lastUpdated: Date
     
     init(id: Int, name: String, username: String, email: String, 
          phone: String, city: String, companyName: String,
-         profileImageURL: String, status: MatchStatus = .pending,
-         lastUpdated: Date = Date()) {
+         profileImageURL: String, status: MatchStatus = .pending) {
         self.id = id
         self.name = name
         self.username = username
@@ -34,7 +32,6 @@ final class MatchProfile {
         self.companyName = companyName
         self.profileImageURL = profileImageURL
         self.status = status
-        self.lastUpdated = lastUpdated
     }
     
     static func from(userModel: UserModel) -> MatchProfile {
