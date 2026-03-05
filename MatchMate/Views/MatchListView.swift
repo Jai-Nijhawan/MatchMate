@@ -54,9 +54,9 @@ struct MatchListView: View {
                 }
             }
             .navigationTitle("MatchMate")
-            .navigationBarTitleDisplayMode(.large)
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .onAppear {
+        .task {
             viewModel.setModelContext(modelContext)
             viewModel.loadProfiles()
         }
