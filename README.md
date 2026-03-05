@@ -2,6 +2,9 @@
 
 MatchMate is an iOS app that simulates a matrimonial app by displaying match cards. Users can accept or decline matches, with all decisions persisted locally for offline access.
 
+## Demo 
+https://github.com/user-attachments/assets/c43ae254-9e13-4af5-9212-dd8616044a5f
+
 ## Features
 
 - **API Integration**: Fetches user data from JSONPlaceholder API
