@@ -1,3 +1,10 @@
+//
+//  MatchCardView.swift
+//  MatchMate
+//
+//  Created by Jai Nijhawan on 05/03/26.
+//
+
 import SwiftUI
 import SDWebImageSwiftUI
 
@@ -5,11 +12,7 @@ struct MatchCardView: View {
     let viewModel: MatchCardViewModel
     
     var body: some View {
-        VStack(spacing: 16) {
-            if !viewModel.isPending {
-                statusBadge
-            }
-            
+        VStack(spacing: 12) {
             WebImage(url: URL(string: viewModel.profileImageURL)) { image in
                 image
                     .resizable()
@@ -18,18 +21,15 @@ struct MatchCardView: View {
                 Circle()
                     .fill(Color.gray.opacity(0.3))
             }
-            .frame(width: 120, height: 120)
+            .frame(width: 200, height: 200)
             .clipShape(Circle())
             
-            VStack(spacing: 8) {
-                Text(viewModel.name)
-                    .font(.title3.weight(.bold))
-                    .foregroundColor(.primary)
-                
-                Text(viewModel.username)
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                
+            Text(viewModel.name)
+                .font(.headline)
+                .foregroundColor(.primary)
+                .multilineTextAlignment(.center)
+            
+            HStack(spacing: 6) {
                 HStack(spacing: 4) {
                     Image(systemName: "mappin.and.ellipse")
                         .font(.caption)
@@ -51,52 +51,107 @@ struct MatchCardView: View {
             }
             
             if viewModel.isPending {
-                HStack(spacing: 32) {
+                HStack(spacing: 16) {
                     Button(action: viewModel.onDecline) {
-                        Image(systemName: "xmark")
-                            .font(.title2.weight(.bold))
-                            .foregroundColor(.white)
-                            .frame(width: 60, height: 60)
-                            .background(Color.red)
-                            .clipShape(Circle())
+                        HStack {
+                            Image(systemName: "xmark")
+                            Text("Decline")
+                        }
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .background(Color.red)
+                        .cornerRadius(8)
                     }
                     
                     Button(action: viewModel.onAccept) {
-                        Image(systemName: "checkmark")
-                            .font(.title2.weight(.bold))
-                            .foregroundColor(.white)
-                            .frame(width: 60, height: 60)
-                            .background(Color.green)
-                            .clipShape(Circle())
+                        HStack {
+                            Image(systemName: "checkmark")
+                            Text("Accept")
+                        }
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .background(Color.green)
+                        .cornerRadius(8)
                     }
                 }
+            } else {
+                statusBadge
             }
         }
-        .padding(20)
-        .frame(maxWidth: .infinity)
+        .padding(16)
         .background(Color(.systemBackground))
-        .cornerRadius(16)
-        .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
+        .cornerRadius(12)
+        .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
     }
     
-    @ViewBuilder
     private var statusBadge: some View {
-        if viewModel.isAccepted {
-            Text("Member Accepted")
-                .font(.caption.weight(.semibold))
-                .foregroundColor(.white)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 6)
-                .background(Color.green)
-                .cornerRadius(12)
-        } else if viewModel.isDeclined {
-            Text("Member Declined")
-                .font(.caption.weight(.semibold))
-                .foregroundColor(.white)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 6)
-                .background(Color.red)
-                .cornerRadius(12)
-        }
+        Text(viewModel.isAccepted ? "Member Accepted" : "Member Declined")
+            .font(.subheadline.weight(.semibold))
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 10)
+            .background(viewModel.isAccepted ? Color.green : Color.red)
+            .cornerRadius(8)
     }
+}
+
+#Preview("Pending") {
+    MatchCardView(
+        viewModel: MatchCardViewModel(
+            id: 1,
+            name: "Leanne Graham",
+            username: "@Bret",
+            email: "Sincere@april.biz",
+            phone: "1-770-736-8031",
+            city: "Gwenborough",
+            companyName: "Romaguera-Crona",
+            profileImageURL: "https://i.pravatar.cc/300?u=1",
+            status: .pending,
+            onAccept: {},
+            onDecline: {}
+        )
+    )
+    .padding()
+}
+
+#Preview("Accepted") {
+    MatchCardView(
+        viewModel: MatchCardViewModel(
+            id: 1,
+            name: "Leanne Graham",
+            username: "@Bret",
+            email: "Sincere@april.biz",
+            phone: "1-770-736-8031",
+            city: "Gwenborough",
+            companyName: "Romaguera-Crona",
+            profileImageURL: "https://i.pravatar.cc/300?u=1",
+            status: .accepted,
+            onAccept: {},
+            onDecline: {}
+        )
+    )
+    .padding()
+}
+
+#Preview("Declined") {
+    MatchCardView(
+        viewModel: MatchCardViewModel(
+            id: 1,
+            name: "Leanne Graham",
+            username: "@Bret",
+            email: "Sincere@april.biz",
+            phone: "1-770-736-8031",
+            city: "Gwenborough",
+            companyName: "Romaguera-Crona",
+            profileImageURL: "https://i.pravatar.cc/300?u=1",
+            status: .declined,
+            onAccept: {},
+            onDecline: {}
+        )
+    )
+    .padding()
 }

@@ -1,3 +1,10 @@
+//
+//  UserModel.swift
+//  MatchMate
+//
+//  Created by Jai Nijhawan on 05/03/26.
+//
+
 import Foundation
 
 struct UserModel: Codable, Identifiable {

@@ -1,4 +1,12 @@
+//
+//  ContentView.swift
+//  MatchMate
+//
+//  Created by Jai Nijhawan on 05/03/26.
+//
+
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
     var body: some View {
@@ -8,4 +16,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .modelContainer(for: MatchProfile.self, inMemory: true)
 }

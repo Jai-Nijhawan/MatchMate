@@ -1,3 +1,10 @@
+//
+//  NetworkService.swift
+//  MatchMate
+//
+//  Created by Jai Nijhawan on 05/03/26.
+//
+
 import Foundation
 
 enum NetworkError: Error, LocalizedError {
