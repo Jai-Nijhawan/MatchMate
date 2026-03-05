@@ -1,10 +1,3 @@
-//
-//  MatchMateApp.swift
-//  MatchMate
-//
-//  Created by Jai Nijhawan on 05/03/26.
-//
-
 import SwiftUI
 import SwiftData
 
@@ -12,7 +5,7 @@ import SwiftData
 struct MatchMateApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            MatchProfile.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
