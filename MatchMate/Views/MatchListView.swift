@@ -32,7 +32,8 @@ struct MatchListView: View {
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                     }
-                } else if let error = viewModel.errorMessage, viewModel.cardViewModels.isEmpty {
+                } else if let error = viewModel.errorMessage,
+                          viewModel.cardViewModels.isEmpty {
                     VStack(spacing: 20) {
                         Image(systemName: "wifi.slash")
                             .font(.system(size: 60))
@@ -49,8 +50,12 @@ struct MatchListView: View {
                             ForEach(viewModel.cardViewModels) { cardViewModel in
                                 MatchCardView(
                                     viewModel: cardViewModel,
-                                    onAccept: { viewModel.acceptMatch(id: cardViewModel.id) },
-                                    onDecline: { viewModel.declineMatch(id: cardViewModel.id) }
+                                    onAccept: {
+                                        viewModel.acceptMatch(id: cardViewModel.id)
+                                    },
+                                    onDecline: {
+                                        viewModel.declineMatch(id: cardViewModel.id)
+                                    }
                                 )
                             }
                         }
