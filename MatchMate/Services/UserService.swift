@@ -58,7 +58,7 @@ final class UserService: UserServiceProtocol {
             MatchCardViewModel(
                 id: profile.id,
                 name: profile.name,
-                username: "@\(profile.username)",
+                username: profile.username,
                 email: profile.email,
                 phone: profile.phone,
                 city: profile.city,
@@ -84,7 +84,7 @@ final class UserService: UserServiceProtocol {
             MatchCardViewModel(
                 id: user.id,
                 name: user.name,
-                username: "@\(user.username)",
+                username: user.username,
                 email: user.email,
                 phone: user.phone,
                 city: user.address.city,

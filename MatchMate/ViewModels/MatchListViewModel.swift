@@ -70,8 +70,7 @@ final class MatchListViewModel: ObservableObject {
             do {
                 let users = try await userService.fetchUsers()
                 try userService.saveUsers(users, context: modelContext)
-                cardViewModels = userService.mapToCardViewModels(users)
-                isLoading = false
+                loadFromCache(modelContext: modelContext)
             } catch {
                 isLoading = false
                 loadFromCache(modelContext: modelContext)
